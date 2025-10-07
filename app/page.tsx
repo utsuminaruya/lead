@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const LINE_URL = "https://lin.ee/xUocVyI";
 const MESSENGER_URL = "https://www.facebook.com/MediflowKK";
-const BOOKING_URL = "https://calendly.com/mediflow/30min";
+const  = "https://calendly.com/mediflow/30min";
 
 type Form = {
   job: string | null;
@@ -309,14 +309,12 @@ export default function Home() {
               <p className="text-slate-600">{t.complete_desc}</p>
               <div className="banner mt-3">{t.instant_msg}</div>
               
-    <div className="flex justify-center gap-3 mt-4">
-      <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
-      <a className="btn btn-outline" href={BOOKING_URL} target="_blank" rel="noreferrer">面談予約（カレンダー）</a>
-      <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
-    </div>
+    
+<div className="flex justify-center gap-3 mt-4">
+  <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
+  <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
+</div>
 
-    <div className="card mt-6 p-4 text-left">
-      <div className="font-semibold mb-2">LINE自動応答テンプレ（日本語）</div>
       <pre className="whitespace-pre-wrap text-sm text-slate-700">
 {`{form.name || "ご登録者"} 様、登録ありがとうございます。
 以下の条件で確認しました：
@@ -325,11 +323,11 @@ export default function Home() {
 - 経験: ${form.exp || "-"} / 住居: ${form.housing || "-"}
 
 次のステップ：面談の予約をお願いします。
-面談予約はこちら → ${BOOKING_URL}
+面談予約はこちら → ${}
 ご不明点はこのままLINEでご返信ください。`}
       </pre>
       <div className="mt-2">
-        <Button variant="outline" onClick={() => copyText(`${form.name || "ご登録者"} 様、登録ありがとうございます。\n以下の条件で確認しました：\n- 職種: ${form.job || "-"} / 在留: ${form.visa || "-"}\n- 勤務地: ${form.pref || "-"} / 日本語: ${form.jlpt || "-"}\n- 経験: ${form.exp || "-"} / 住居: ${form.housing || "-"}\n\n次のステップ：面談の予約をお願いします。\n面談予約はこちら → ${BOOKING_URL}\nご不明点はこのままLINEでご返信ください。`)}>日本語テンプレをコピー</Button>
+        <Button variant="outline" onClick={() => copyText(`${form.name || "ご登録者"} 様、登録ありがとうございます。\n以下の条件で確認しました：\n- 職種: ${form.job || "-"} / 在留: ${form.visa || "-"}\n- 勤務地: ${form.pref || "-"} / 日本語: ${form.jlpt || "-"}\n- 経験: ${form.exp || "-"} / 住居: ${form.housing || "-"}\n\n次のステップ：面談の予約をお願いします。\n面談予約はこちら → ${}\nご不明点はこのままLINEでご返信ください。`)}>日本語テンプレをコピー</Button>
       </div>
 
       <div className="font-semibold mt-6 mb-2">Mẫu trả lời tự động LINE（Tiếng Việt）</div>
@@ -341,11 +339,11 @@ export default function Home() {
 - Kinh nghiệm: ${form.exp || "-"} / Chỗ ở: ${form.housing || "-"}
 
 Bước tiếp theo: vui lòng đặt lịch phỏng vấn.
-Đặt lịch tại đây → ${BOOKING_URL}
+Đặt lịch tại đây → ${}
 Nếu có câu hỏi, hãy nhắn trực tiếp trên LINE này.`}
       </pre>
       <div className="mt-2">
-        <Button variant="outline" onClick={() => copyText(`${form.name || "Bạn"} thân mến, cảm ơn bạn đã đăng ký.\nĐiều kiện của bạn:\n- Công việc: ${form.job || "-"} / Tư cách lưu trú: ${form.visa || "-"}\n- Khu vực: ${form.pref || "-"} / Tiếng Nhật: ${form.jlpt || "-"}\n- Kinh nghiệm: ${form.exp || "-"} / Chỗ ở: ${form.housing || "-"}\n\nBước tiếp theo: vui lòng đặt lịch phỏng vấn.\nĐặt lịch tại đây → ${BOOKING_URL}\nNếu có câu hỏi, hãy nhắn trực tiếp trên LINE này.`)}>Tiếng Việtテンプレをコピー</Button>
+        <Button variant="outline" onClick={() => copyText(`${form.name || "Bạn"} thân mến, cảm ơn bạn đã đăng ký.\nĐiều kiện của bạn:\n- Công việc: ${form.job || "-"} / Tư cách lưu trú: ${form.visa || "-"}\n- Khu vực: ${form.pref || "-"} / Tiếng Nhật: ${form.jlpt || "-"}\n- Kinh nghiệm: ${form.exp || "-"} / Chỗ ở: ${form.housing || "-"}\n\nBước tiếp theo: vui lòng đặt lịch phỏng vấn.\nĐặt lịch tại đây → ${}\nNếu có câu hỏi, hãy nhắn trực tiếp trên LINE này.`)}>Tiếng Việtテンプレをコピー</Button>
       </div>
     </div>
 
