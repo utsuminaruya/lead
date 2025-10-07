@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const LINE_URL = "https://lin.ee/xUocVyI"; // 求職者向け LINE
+const LINE_URL = "https://lin.ee/xUocVyI";
 const MESSENGER_URL = "https://www.facebook.com/MediflowKK";
 
 type Form = {
@@ -36,7 +36,7 @@ export default function Home() {
     name: "", contact: "", email: ""
   });
 
-  const progress = Math.round((step / 6) * 100);
+  const progress = Math.round((step / 7) * 100);
 
   const canNext = () => {
     switch(step){
@@ -46,12 +46,13 @@ export default function Home() {
       case 4: return !!form.jlpt;
       case 5: return !!form.exp;
       case 6: return !!form.housing;
+      case 7: return !!form.name && !!form.contact;
       default: return true;
     }
   };
 
   const start = () => setStep(1);
-  const next = () => setStep(s => Math.min(6, s + 1));
+  const next = () => setStep(s => Math.min(7, s + 1));
   const prev = () => setStep(s => Math.max(1, s - 1));
 
   const submit = async () => {
@@ -97,7 +98,7 @@ export default function Home() {
         </div>
 
         {!step && !sent && (
-          <div className="grid md:grid-cols-[1fr,1fr] items-center gap-6">
+          <div className="grid items-center gap-6">
             <Card className="">
               <CardHeader>
                 <CardTitle>{t.app_title}</CardTitle>
@@ -105,15 +106,12 @@ export default function Home() {
               <CardContent>
                 <ul className="space-y-2 text-slate-600 text-sm">
                   <li>• 介護職／看護助手／その他 だけを明確に選択</li>
-                  <li>• 6つの質問に答えるだけ（約30秒）</li>
+                  <li>• 7ステップ（約30秒）で完了</li>
                   <li>• 結果はLINEまたはMessengerで即連絡</li>
                 </ul>
                 <Button onClick={start} className="mt-4 w-full">{t.start}</Button>
               </CardContent>
             </Card>
-            <div className="hidden md:block">
-              <Image src="/logo.svg" alt="illustration" width={400} height={400} />
-            </div>
           </div>
         )}
 
@@ -121,7 +119,7 @@ export default function Home() {
           <Card>
             <CardContent>
               <div className="flex items-center justify-between mb-4">
-                <div className="text-sm text-slate-500">Step {step} / 6</div>
+                <div className="text-sm text-slate-500">Step {step} / 7</div>
                 <div className="w-48 h-2 bg-slate-200 rounded-full overflow-hidden">
                   <div className="h-full bg-brand-500" style={{ width: `${progress}%`}} />
                 </div>
@@ -196,11 +194,45 @@ export default function Home() {
                 </div>
               )}
 
+              {step === 7 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.contact_title}</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="label">{t.name}</label>
+                      <Input placeholder="Nguyen Van A / 山田太郎"
+                        value={form.name} onChange={e => setForm(f => ({...f, name: e.target.value}))} />
+                    </div>
+                    <div>
+                      <label className="label">{t.whatsapp}</label>
+                      <Input placeholder="@yourID / +84..." value={form.contact}
+                        onChange={e => setForm(f => ({...f, contact: e.target.value}))} />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="label">{t.email}</label>
+                      <Input type="email" placeholder="example@email.com"
+                        value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))} />
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">{t.privacy_note}</p>
+                  <div className="flex items-center gap-3 mt-4">
+                    <Button onClick={submit} disabled={loading || !form.name || !form.contact}>
+                      {loading ? "送信中..." : t.submit}
+                    </Button>
+                    <a className="btn btn-outline" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
+                    <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
+                  </div>
+                </div>
+              )}
+
               <div className="mt-6 flex items-center justify-between">
                 <Button variant="outline" onClick={prev} disabled={step===1}>戻る</Button>
                 <div className="flex items-center gap-2">
                   {step < 6 && (
                     <Button onClick={next} disabled={!canNext()}>次へ</Button>
+                  )}
+                  {step === 6 && (
+                    <Button onClick={next} disabled={!canNext()}>次へ（連絡先）</Button>
                   )}
                 </div>
               </div>
@@ -210,7 +242,6 @@ export default function Home() {
 
         {step === 0 && !sent && (
           <div className="mt-8">
-            {/* Contact form appears only after steps? Keep visible for fallback */}
             <Card>
               <CardHeader><CardTitle>{dict[lang].contact_title}</CardTitle></CardHeader>
               <CardContent>
@@ -249,6 +280,7 @@ export default function Home() {
             <CardHeader><CardTitle>{t.complete_title}</CardTitle></CardHeader>
             <CardContent>
               <p className="text-slate-600">{t.complete_desc}</p>
+              <div className="banner mt-3">{t.instant_msg}</div>
               <div className="flex justify-center gap-3 mt-4">
                 <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
                 <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
