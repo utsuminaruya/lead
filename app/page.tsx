@@ -296,7 +296,6 @@ export default function Home() {
 
       <footer className="py-10 text-center text-xs text-slate-500">
         <div>© {new Date().getFullYear()} Mediflow Inc.</div>
-        <div className="mt-1">このページには「介護事業者向けボタン」や統計数字の表示はありません。</div>
       </footer>
     </div>
   );
