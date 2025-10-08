@@ -3,7 +3,7 @@ export type Locale = "ja" | "vi";
 export const dict: Record<Locale, Record<string, string>> = {
   ja: {
     app_title: "30秒 介護ジョブ診断",
-    tagline: "外国人のあなたに、いちばん合う仕事を一緒に見つけます。",
+    tagline: "いちばん合う仕事を一緒に見つけます。",
     start: "診断をはじめる",
     lang_ja: "日本語",
     lang_vi: "Tiếng Việt",

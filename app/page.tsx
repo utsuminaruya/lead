@@ -5,14 +5,13 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { dict, Locale } from "@/lib/locale";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button();
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 const LINE_URL = "https://lin.ee/xUocVyI";
 const MESSENGER_URL = "https://www.facebook.com/MediflowKK";
-const  = "https://calendly.com/mediflow/30min";
 
 type Form = {
   job: string | null;
@@ -37,24 +36,7 @@ export default function Home() {
     name: "", contact: "", email: ""
   });
 
-  // helper: select a value and auto-advance to next step
-  function choose<K extends keyof Form>(key: K, value: Form[K]) {
-    setForm(f => ({ ...f, [key]: value }));
-    next();
-  }
-
-  // helper: copy text to clipboard
-  async function copyText(text: string) {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("テキストをコピーしました");
-    } catch {
-      alert("コピーに失敗しました");
-    }
-  }
-
   const progress = Math.round((step / 7) * 100);
-
   const canNext = () => {
     switch(step){
       case 1: return !!form.job;
@@ -72,23 +54,25 @@ export default function Home() {
   const next = () => setStep(s => Math.min(7, s + 1));
   const prev = () => setStep(s => Math.max(1, s - 1));
 
+  // select + auto-advance
+  function choose<K extends keyof Form>(key: K, value: Form[K]) {
+    setForm(f => ({ ...f, [key]: value }));
+    next();
+  }
+
   const submit = async () => {
     setLoading(true);
     try {
       const payload = { ...form, lang, ua: navigator.userAgent, ts: new Date().toISOString() };
       const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
+        method: "POST", headers: { "Content-Type":"application/json" },
         body: JSON.stringify(payload)
       });
       if(!res.ok) throw new Error(await res.text());
-      setSent(true);
-      setStep(0);
+      setSent(true); setStep(0);
     } catch(e){
       alert("送信に失敗しました。もう一度お試しください。");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
@@ -99,10 +83,10 @@ export default function Home() {
             <Image src="/logo.svg" alt="logo" width={36} height={36} />
             <span className="font-semibold text-slate-800">Mediflow</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => setLang("ja")}>{dict.ja.lang_ja}</Button>
-            <Button variant="outline" onClick={() => setLang("vi")}>{dict.vi.lang_vi}</Button>
-          </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={() => setLang("ja")}>{dict.ja.lang_ja}</Button>
+              <Button variant="outline" onClick={() => setLang("vi")}>{dict.vi.lang_vi}</Button>
+            </div>
         </div>
       </header>
 
@@ -116,10 +100,8 @@ export default function Home() {
 
         {!step && !sent && (
           <div className="grid items-center gap-6">
-            <Card className="">
-              <CardHeader>
-                <CardTitle>{t.app_title}</CardTitle>
-              </CardHeader>
+            <Card>
+              <CardHeader><CardTitle>{t.app_title}</CardTitle></CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-slate-600 text-sm">
                   <li>• 介護職／看護助手／その他 だけを明確に選択</li>
@@ -142,84 +124,76 @@ export default function Home() {
                 </div>
               </div>
 
-              
-{step === 1 && (
-  <div>
-    <h3 className="text-lg font-semibold mb-3">{t.step1_title}</h3>
-    <div className="grid sm:grid-cols-3 gap-3">
-      <Button variant={form.job==='caregiver'?'primary':'outline'} onClick={() => choose('job','caregiver')}>{t.caregiver}</Button>
-      <Button variant={form.job==='nurse_aide'?'primary':'outline'} onClick={() => choose('job','nurse_aide')}>{t.nurse_aide}</Button>
-      <Button variant={form.job==='other'?'primary':'outline'} onClick={() => choose('job','other')}>{t.other}</Button>
-    </div>
-  </div>
-)}
+              {step === 1 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.step1_title}</h3>
+                  <div className="grid sm:grid-cols-3 gap-3">
+                    <Button variant={form.job==='caregiver'?'primary':'outline'} onClick={() => choose('job','caregiver')}>{t.caregiver}</Button>
+                    <Button variant={form.job==='nurse_aide'?'primary':'outline'} onClick={() => choose('job','nurse_aide')}>{t.nurse_aide}</Button>
+                    <Button variant={form.job==='other'?'primary':'outline'} onClick={() => choose('job','other')}>{t.other}</Button>
+                  </div>
+                </div>
+              )}
 
+              {step === 2 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.step2_title}</h3>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <Button variant={form.visa==='student'?'primary':'outline'} onClick={() => choose('visa','student')}>{t.visa_student}</Button>
+                    <Button variant={form.visa==='specified'?'primary':'outline'} onClick={() => choose('visa','specified')}>{t.visa_specified}</Button>
+                    <Button variant={form.visa==='technical'?'primary':'outline'} onClick={() => choose('visa','technical')}>{t.visa_technical}</Button>
+                    <Button variant={form.visa==='other'?'primary':'outline'} onClick={() => choose('visa','other')}>{t.visa_other}</Button>
+                  </div>
+                </div>
+              )}
 
-              
-{step === 2 && (
-  <div>
-    <h3 className="text-lg font-semibold mb-3">{t.step2_title}</h3>
-    <div className="grid sm:grid-cols-2 gap-3">
-      <Button variant={form.visa==='student'?'primary':'outline'} onClick={() => choose('visa','student')}>{t.visa_student}</Button>
-      <Button variant={form.visa==='specified'?'primary':'outline'} onClick={() => choose('visa','specified')}>{t.visa_specified}</Button>
-      <Button variant={form.visa==='technical'?'primary':'outline'} onClick={() => choose('visa','technical')}>{t.visa_technical}</Button>
-      <Button variant={form.visa==='other'?'primary':'outline'} onClick={() => choose('visa','other')}>{t.visa_other}</Button>
-    </div>
-  </div>
-)}
-
-
-              
-{step === 3 && (
-  <div>
-    <h3 className="text-lg font-semibold mb-3">{t.step3_title}</h3>
-    <div className="grid sm:grid-cols-3 gap-3">
-      <Button variant={form.pref==='tokyo'?'primary':'outline'} onClick={() => choose('pref','tokyo')}>{t.tokyo}</Button>
-      <Button variant={form.pref==='kanagawa'?'primary':'outline'} onClick={() => choose('pref','kanagawa')}>{t.kanagawa}</Button>
-      <Button variant={form.pref==='chiba'?'primary':'outline'} onClick={() => choose('pref','chiba')}>{t.chiba}</Button>
-      <Button variant={form.pref==='saitama'?'primary':'outline'} onClick={() => choose('pref','saitama')}>{t.saitama}</Button>
-      <Button variant={form.pref==='anywhere'?'primary':'outline'} onClick={() => choose('pref','anywhere')}>{t.anywhere}</Button>
-    </div>
-  </div>
-)}
-
+              {step === 3 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.step3_title}</h3>
+                  <div className="grid sm:grid-cols-3 gap-3">
+                    <Button variant={form.pref==='tokyo'?'primary':'outline'} onClick={() => choose('pref','tokyo')}>{t.tokyo}</Button>
+                    <Button variant={form.pref==='kanagawa'?'primary':'outline'} onClick={() => choose('pref','kanagawa')}>{t.kanagawa}</Button>
+                    <Button variant={form.pref==='chiba'?'primary':'outline'} onClick={() => choose('pref','chiba')}>{t.chiba}</Button>
+                    <Button variant={form.pref==='saitama'?'primary':'outline'} onClick={() => choose('pref','saitama')}>{t.saitama}</Button>
+                    <Button variant={form.pref==='anywhere'?'primary':'outline'} onClick={() => choose('pref','anywhere')}>{t.anywhere}</Button>
+                  </div>
+                </div>
+              )}
 
               {step === 4 && (
                 <div>
                   <h3 className="text-lg font-semibold mb-3">{t.step4_title}</h3>
                   <div className="grid grid-cols-5 gap-2">
-                    {["jlpt_n1","jlpt_n2","jlpt_n3","jlpt_n4","jlpt_n5"].map(k => (
-                      <Button key={k} onClick={() => setForm(f => ({...f, jlpt: k}))}>{t[k as keyof typeof t]}</Button>
-                    ))}
+                    <Button variant={form.jlpt==='jlpt_n1'?'primary':'outline'} onClick={() => choose('jlpt','jlpt_n1')}>{t.jlpt_n1}</Button>
+                    <Button variant={form.jlpt==='jlpt_n2'?'primary':'outline'} onClick={() => choose('jlpt','jlpt_n2')}>{t.jlpt_n2}</Button>
+                    <Button variant={form.jlpt==='jlpt_n3'?'primary':'outline'} onClick={() => choose('jlpt','jlpt_n3')}>{t.jlpt_n3}</Button>
+                    <Button variant={form.jlpt==='jlpt_n4'?'primary':'outline'} onClick={() => choose('jlpt','jlpt_n4')}>{t.jlpt_n4}</Button>
+                    <Button variant={form.jlpt==='jlpt_n5'?'primary':'outline'} onClick={() => choose('jlpt','jlpt_n5')}>{t.jlpt_n5}</Button>
                   </div>
                 </div>
               )}
 
-              
-{step === 5 && (
-  <div>
-    <h3 className="text-lg font-semibold mb-3">{t.step5_title}</h3>
-    <div className="grid sm:grid-cols-4 gap-2">
-      <Button variant={form.exp==='none'?'primary':'outline'} onClick={() => choose('exp','none')}>{t.exp_none}</Button>
-      <Button variant={form.exp==='lt1'?'primary':'outline'} onClick={() => choose('exp','lt1')}>{t.exp_lt1}</Button>
-      <Button variant={form.exp==='1to3'?'primary':'outline'} onClick={() => choose('exp','1to3')}>{t.exp_1to3}</Button>
-      <Button variant={form.exp==='gt3'?'primary':'outline'} onClick={() => choose('exp','gt3')}>{t.exp_gt3}</Button>
-    </div>
-  </div>
-)}
+              {step === 5 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.step5_title}</h3>
+                  <div className="grid sm:grid-cols-4 gap-2">
+                    <Button variant={form.exp==='none'?'primary':'outline'} onClick={() => choose('exp','none')}>{t.exp_none}</Button>
+                    <Button variant={form.exp==='lt1'?'primary':'outline'} onClick={() => choose('exp','lt1')}>{t.exp_lt1}</Button>
+                    <Button variant={form.exp==='1to3'?'primary':'outline'} onClick={() => choose('exp','1to3')}>{t.exp_1to3}</Button>
+                    <Button variant={form.exp==='gt3'?'primary':'outline'} onClick={() => choose('exp','gt3')}>{t.exp_gt3}</Button>
+                  </div>
+                </div>
+              )}
 
-
-              
-{step === 6 && (
-  <div>
-    <h3 className="text-lg font-semibold mb-3">{t.step6_title}</h3>
-    <div className="grid sm:grid-cols-2 gap-2">
-      <Button variant={form.housing==='company'?'primary':'outline'} onClick={() => choose('housing','company')}>{t.housing_company}</Button>
-      <Button variant={form.housing==='self'?'primary':'outline'} onClick={() => choose('housing','self')}>{t.housing_self}</Button>
-    </div>
-  </div>
-)}
-
+              {step === 6 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">{t.step6_title}</h3>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    <Button variant={form.housing==='company'?'primary':'outline'} onClick={() => choose('housing','company')}>{t.housing_company}</Button>
+                    <Button variant={form.housing==='self'?'primary':'outline'} onClick={() => choose('housing','self')}>{t.housing_self}</Button>
+                  </div>
+                </div>
+              )}
 
               {step === 7 && (
                 <div>
@@ -255,12 +229,8 @@ export default function Home() {
               <div className="mt-6 flex items-center justify-between">
                 <Button variant="outline" onClick={prev} disabled={step===1}>戻る</Button>
                 <div className="flex items-center gap-2">
-                  {step < 6 && (
-                    <Button onClick={next} disabled={!canNext()}>次へ</Button>
-                  )}
-                  {step === 6 && (
-                    <Button onClick={next} disabled={!canNext()}>次へ（連絡先）</Button>
-                  )}
+                  {step < 6 && (<Button onClick={next} disabled={!canNext()}>次へ</Button>)}
+                  {step === 6 && (<Button onClick={next} disabled={!canNext()}>次へ（連絡先）</Button>)}
                 </div>
               </div>
             </CardContent>
@@ -308,45 +278,10 @@ export default function Home() {
             <CardContent>
               <p className="text-slate-600">{t.complete_desc}</p>
               <div className="banner mt-3">{t.instant_msg}</div>
-              
-    
-<div className="flex justify-center gap-3 mt-4">
-  <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
-  <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
-</div>
-
-      <pre className="whitespace-pre-wrap text-sm text-slate-700">
-{`{form.name || "ご登録者"} 様、登録ありがとうございます。
-以下の条件で確認しました：
-- 職種: ${form.job || "-"} / 在留: ${form.visa || "-"}
-- 勤務地: ${form.pref || "-"} / 日本語: ${form.jlpt || "-"}
-- 経験: ${form.exp || "-"} / 住居: ${form.housing || "-"}
-
-次のステップ：面談の予約をお願いします。
-面談予約はこちら → ${}
-ご不明点はこのままLINEでご返信ください。`}
-      </pre>
-      <div className="mt-2">
-        <Button variant="outline" onClick={() => copyText(`${form.name || "ご登録者"} 様、登録ありがとうございます。\n以下の条件で確認しました：\n- 職種: ${form.job || "-"} / 在留: ${form.visa || "-"}\n- 勤務地: ${form.pref || "-"} / 日本語: ${form.jlpt || "-"}\n- 経験: ${form.exp || "-"} / 住居: ${form.housing || "-"}\n\n次のステップ：面談の予約をお願いします。\n面談予約はこちら → ${}\nご不明点はこのままLINEでご返信ください。`)}>日本語テンプレをコピー</Button>
-      </div>
-
-      <div className="font-semibold mt-6 mb-2">Mẫu trả lời tự động LINE（Tiếng Việt）</div>
-      <pre className="whitespace-pre-wrap text-sm text-slate-700">
-{`${form.name || "Bạn"} thân mến, cảm ơn bạn đã đăng ký.
-Điều kiện của bạn:
-- Công việc: ${form.job || "-"} / Tư cách lưu trú: ${form.visa || "-"}
-- Khu vực: ${form.pref || "-"} / Tiếng Nhật: ${form.jlpt || "-"}
-- Kinh nghiệm: ${form.exp || "-"} / Chỗ ở: ${form.housing || "-"}
-
-Bước tiếp theo: vui lòng đặt lịch phỏng vấn.
-Đặt lịch tại đây → ${}
-Nếu có câu hỏi, hãy nhắn trực tiếp trên LINE này.`}
-      </pre>
-      <div className="mt-2">
-        <Button variant="outline" onClick={() => copyText(`${form.name || "Bạn"} thân mến, cảm ơn bạn đã đăng ký.\nĐiều kiện của bạn:\n- Công việc: ${form.job || "-"} / Tư cách lưu trú: ${form.visa || "-"}\n- Khu vực: ${form.pref || "-"} / Tiếng Nhật: ${form.jlpt || "-"}\n- Kinh nghiệm: ${form.exp || "-"} / Chỗ ở: ${form.housing || "-"}\n\nBước tiếp theo: vui lòng đặt lịch phỏng vấn.\nĐặt lịch tại đây → ${}\nNếu có câu hỏi, hãy nhắn trực tiếp trên LINE này.`)}>Tiếng Việtテンプレをコピー</Button>
-      </div>
-    </div>
-
+              <div className="flex justify-center gap-3 mt-4">
+                <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
+                <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
+              </div>
               <div className="mt-6">
                 <Button variant="outline" onClick={() => setSent(false)}>{t.back_home}</Button>
               </div>
