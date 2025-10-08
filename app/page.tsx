@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { dict, Locale } from "@/lib/locale";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button();
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -278,10 +278,12 @@ export default function Home() {
             <CardContent>
               <p className="text-slate-600">{t.complete_desc}</p>
               <div className="banner mt-3">{t.instant_msg}</div>
+
               <div className="flex justify-center gap-3 mt-4">
                 <a className="btn btn-primary" href={LINE_URL} target="_blank" rel="noreferrer">{t.add_line}</a>
                 <a className="btn btn-outline" href={MESSENGER_URL} target="_blank" rel="noreferrer">{t.add_messenger}</a>
               </div>
+
               <div className="mt-6">
                 <Button variant="outline" onClick={() => setSent(false)}>{t.back_home}</Button>
               </div>
