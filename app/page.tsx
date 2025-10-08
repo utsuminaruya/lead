@@ -1,11 +1,10 @@
-
 "use client";
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { dict, Locale } from "@/lib/locale";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button();
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,6 +36,7 @@ export default function Home() {
   });
 
   const progress = Math.round((step / 7) * 100);
+
   const canNext = () => {
     switch(step){
       case 1: return !!form.job;
@@ -54,7 +54,7 @@ export default function Home() {
   const next = () => setStep(s => Math.min(7, s + 1));
   const prev = () => setStep(s => Math.max(1, s - 1));
 
-  // select + auto-advance
+  // 選択→自動で次へ
   function choose<K extends keyof Form>(key: K, value: Form[K]) {
     setForm(f => ({ ...f, [key]: value }));
     next();
@@ -65,14 +65,18 @@ export default function Home() {
     try {
       const payload = { ...form, lang, ua: navigator.userAgent, ts: new Date().toISOString() };
       const res = await fetch("/api/lead", {
-        method: "POST", headers: { "Content-Type":"application/json" },
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
         body: JSON.stringify(payload)
       });
       if(!res.ok) throw new Error(await res.text());
-      setSent(true); setStep(0);
+      setSent(true);
+      setStep(0);
     } catch(e){
       alert("送信に失敗しました。もう一度お試しください。");
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,10 +87,10 @@ export default function Home() {
             <Image src="/logo.svg" alt="logo" width={36} height={36} />
             <span className="font-semibold text-slate-800">Mediflow</span>
           </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" onClick={() => setLang("ja")}>{dict.ja.lang_ja}</Button>
-              <Button variant="outline" onClick={() => setLang("vi")}>{dict.vi.lang_vi}</Button>
-            </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={() => setLang("ja")}>{dict.ja.lang_ja}</Button>
+            <Button variant="outline" onClick={() => setLang("vi")}>{dict.vi.lang_vi}</Button>
+          </div>
         </div>
       </header>
 
