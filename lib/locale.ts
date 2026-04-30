@@ -1,76 +1,105 @@
+export type Locale = "ja" | "vi" | "en";
 
-export type Locale = "ja" | "vi";
-export const dict: Record<Locale, Record<string, string>> = {
+type Translation = {
+  appTitle: string;
+  tagline: string;
+  dashboard: string;
+  chat: string;
+  jobs: string;
+  life: string;
+  jpStudy: string;
+  login: string;
+  googleLogin: string;
+  todayTasks: string;
+  askAi: string;
+  aiPlaceholder: string;
+  send: string;
+  region: string;
+  role: string;
+  level: string;
+  apply: string;
+  hospital: string;
+  housing: string;
+  visa: string;
+  studyLinks: string;
+  quizSoon: string;
+  loading: string;
+};
+
+export const dict: Record<Locale, Translation> = {
   ja: {
-    app_title: "30秒 介護ジョブ診断",
-    tagline: "いちばん合う仕事を一緒に見つけます。",
-    start: "診断をはじめる",
-    lang_ja: "日本語",
-    lang_vi: "Tiếng Việt",
-    step1_title: "希望する仕事を選んでください",
-    caregiver: "介護職",
-    nurse_aide: "看護助手",
-    other: "その他",
-    step2_title: "現在の在留状況",
-    visa_student: "留学",
-    visa_specified: "特定技能",
-    visa_technical: "技能実習",
-    visa_other: "その他",
-    step3_title: "希望勤務地",
-    tokyo: "東京", kanagawa: "神奈川", chiba: "千葉", saitama:"埼玉", anywhere:"こだわらない",
-    step4_title: "日本語レベル",
-    jlpt_n1:"N1", jlpt_n2:"N2", jlpt_n3:"N3", jlpt_n4:"N4", jlpt_n5:"N5",
-    step5_title: "介護の経験",
-    exp_none:"未経験", exp_lt1:"1年未満", exp_1to3:"1〜3年", exp_gt3:"3年以上",
-    step6_title: "住居の希望",
-    housing_company: "会社寮を希望", housing_self:"自分で探す",
-    contact_title:"連絡先",
-    name:"お名前",
-    whatsapp:"WhatsApp / Zalo / Messenger",
-    email:"メールアドレス（任意）",
-    submit:"この条件で紹介を受ける",
-    privacy_note:"送信でプライバシーポリシーに同意したものとみなします。",
-    complete_title:"登録が完了しました",
-    complete_desc:"担当者が最適な求人を選び、すぐにご連絡します。",
-    add_line:"LINEで連絡を受ける",
-    add_messenger:"Messengerで質問する",
-    back_home:"最初に戻る",
-    instant_msg:"送信ありがとうございました。まずは下のボタンからLINEを追加してください。担当から順番にご連絡します。"
+    appTitle: "Mediflow",
+    tagline: "次にやることがすぐ分かる生活・就労サポート",
+    dashboard: "ダッシュボード",
+    chat: "チャットAI",
+    jobs: "求人検索",
+    life: "生活サポート",
+    jpStudy: "日本語学習",
+    login: "メールログイン",
+    googleLogin: "Googleログイン",
+    todayTasks: "今日のタスク",
+    askAi: "AIに相談",
+    aiPlaceholder: "例）病院予約をしたい。次に何をすればいい？",
+    send: "送信",
+    region: "地域",
+    role: "職種",
+    level: "日本語レベル",
+    apply: "応募する",
+    hospital: "病院検索",
+    housing: "住居情報",
+    visa: "ビザ情報",
+    studyLinks: "レベル別教材リンク",
+    quizSoon: "クイズ機能（近日公開）",
+    loading: "読み込み中..."
   },
   vi: {
-    app_title: "Chẩn đoán việc làm điều dưỡng 30 giây",
-    tagline: "Cùng tìm công việc phù hợp nhất tại Nhật cho bạn.",
-    start: "Bắt đầu chẩn đoán",
-    lang_ja: "日本語",
-    lang_vi: "Tiếng Việt",
-    step1_title: "Hãy chọn công việc bạn muốn",
-    caregiver:"Nhân viên điều dưỡng",
-    nurse_aide:"Phụ tá điều dưỡng",
-    other:"Khác",
-    step2_title: "Tình trạng lưu trú hiện tại",
-    visa_student:"Du học",
-    visa_specified:"Kỹ năng đặc định",
-    visa_technical:"Thực tập sinh kỹ năng",
-    visa_other:"Khác",
-    step3_title: "Khu vực làm việc mong muốn",
-    tokyo:"Tokyo", kanagawa:"Kanagawa", chiba:"Chiba", saitama:"Saitama", anywhere:"Không yêu cầu",
-    step4_title: "Trình độ tiếng Nhật",
-    jlpt_n1:"N1", jlpt_n2:"N2", jlpt_n3:"N3", jlpt_n4:"N4", jlpt_n5:"N5",
-    step5_title: "Kinh nghiệm điều dưỡng",
-    exp_none:"Chưa có", exp_lt1:"Dưới 1 năm", exp_1to3:"1–3 năm", exp_gt3:"Trên 3 năm",
-    step6_title: "Nơi ở mong muốn",
-    housing_company:"Muốn ở ký túc xá công ty", housing_self:"Tự tìm chỗ ở",
-    contact_title:"Thông tin liên hệ",
-    name:"Họ và tên",
-    whatsapp:"WhatsApp / Zalo / Messenger",
-    email:"Email (tùy chọn)",
-    submit:"Nhận giới thiệu theo điều kiện này",
-    privacy_note:"Gửi biểu mẫu nghĩa là bạn đồng ý với chính sách bảo mật.",
-    complete_title:"Đăng ký đã hoàn tất",
-    complete_desc:"Phụ trách sẽ chọn việc phù hợp và liên hệ ngay.",
-    add_line:"Nhận liên hệ qua LINE",
-    add_messenger:"Hỏi qua Messenger",
-    back_home:"Về trang đầu",
-    instant_msg:"Cảm ơn bạn đã gửi. Hãy thêm LINE bằng nút bên dưới. Nhân viên sẽ liên hệ lần lượt."
+    appTitle: "Mediflow",
+    tagline: "Hỗ trợ việc làm & đời sống: biết ngay việc cần làm tiếp theo",
+    dashboard: "Bảng điều khiển",
+    chat: "Chat AI",
+    jobs: "Tìm việc",
+    life: "Hỗ trợ đời sống",
+    jpStudy: "Học tiếng Nhật",
+    login: "Đăng nhập email",
+    googleLogin: "Đăng nhập Google",
+    todayTasks: "Việc cần làm hôm nay",
+    askAi: "Hỏi AI",
+    aiPlaceholder: "Ví dụ: Tôi muốn đặt lịch bệnh viện, nên làm gì tiếp?",
+    send: "Gửi",
+    region: "Khu vực",
+    role: "Ngành nghề",
+    level: "Trình độ tiếng Nhật",
+    apply: "Ứng tuyển",
+    hospital: "Tìm bệnh viện",
+    housing: "Thông tin nhà ở",
+    visa: "Thông tin visa",
+    studyLinks: "Tài liệu theo cấp độ",
+    quizSoon: "Chức năng quiz (sắp ra mắt)",
+    loading: "Đang tải..."
+  },
+  en: {
+    appTitle: "Mediflow",
+    tagline: "Life + work support that tells you your next best action",
+    dashboard: "Dashboard",
+    chat: "Chat AI",
+    jobs: "Job Search",
+    life: "Life Support",
+    jpStudy: "Japanese Study",
+    login: "Email Login",
+    googleLogin: "Google Login",
+    todayTasks: "Today's Tasks",
+    askAi: "Ask AI",
+    aiPlaceholder: "Ex: I need a hospital appointment. What's my next step?",
+    send: "Send",
+    region: "Region",
+    role: "Role",
+    level: "Japanese Level",
+    apply: "Apply",
+    hospital: "Find Hospital",
+    housing: "Housing Info",
+    visa: "Visa Info",
+    studyLinks: "Level-based learning links",
+    quizSoon: "Quiz feature (coming soon)",
+    loading: "Loading..."
   }
 };
